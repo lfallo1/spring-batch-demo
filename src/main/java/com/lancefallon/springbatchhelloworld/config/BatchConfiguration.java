@@ -49,17 +49,10 @@ public class BatchConfiguration {
 
 
     /* Steps */
+
     @Bean
     public Step step1() {
         return steps.get("step1")
-                .listener(stepExecutionListener)
-                .tasklet(getMyTasklet())
-                .build();
-    }
-
-    @Bean
-    public Step step2() {
-        return steps.get("step2")
                 .<Integer, Integer>chunk(2)
                 .reader(itemReader)
                 .processor(itemProcessor)
@@ -70,15 +63,9 @@ public class BatchConfiguration {
     /* Jobs */
     @Bean
     public Job helloWorldJob() {
-//        return jobs.get("helloWorldJob")
-//                .listener(jobExecutionListener)
-//                .start(step1())
-//                .next(step2())
-//                .build();
-
-        return jobs.get("helloWorldJob")
+        return jobs.get("fileReaderJob")
                 .listener(jobExecutionListener)
-                .start(step2())
+                .start(step1())
                 .build();
     }
 
