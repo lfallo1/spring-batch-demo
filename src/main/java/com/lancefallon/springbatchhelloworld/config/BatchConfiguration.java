@@ -36,15 +36,13 @@ public class BatchConfiguration {
 
     /* item readers/processors/writers */
     @Autowired
-    @Qualifier("orderReader")
     private ItemReader itemReader;
 
     @Autowired
-    @Qualifier("orderProcessor")
     private ItemProcessor itemProcessor;
 
     @Autowired
-    @Qualifier("orderWriter")
+    @Qualifier("memoryWriter")
     private ItemWriter itemWriter;
 
 
@@ -60,7 +58,7 @@ public class BatchConfiguration {
     @Bean
     public Step step2() {
         return steps.get("step2")
-                .<Integer, Integer>chunk(2)
+                .<Integer, Integer>chunk(3)
                 .reader(itemReader)
                 .processor(itemProcessor)
                 .writer(itemWriter)
@@ -70,15 +68,10 @@ public class BatchConfiguration {
     /* Jobs */
     @Bean
     public Job helloWorldJob() {
-//        return jobs.get("helloWorldJob")
-//                .listener(jobExecutionListener)
-//                .start(step1())
-//                .next(step2())
-//                .build();
-
         return jobs.get("helloWorldJob")
                 .listener(jobExecutionListener)
-                .start(step2())
+                .start(step1())
+                .next(step2())
                 .build();
     }
 

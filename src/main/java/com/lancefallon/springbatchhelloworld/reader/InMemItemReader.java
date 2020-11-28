@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
-@Component(value="memoryReader")
+@Component
 public class InMemItemReader extends AbstractItemStreamItemReader<Integer> {
 
     List<Integer> listInt = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
