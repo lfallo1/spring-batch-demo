@@ -17,17 +17,17 @@ public class ProductLineMapper implements FileLineMapper<Product> {
         return lineMapper;
     }
 
-    public FieldSetMapper fieldMapper() {
-        BeanWrapperFieldSetMapper mapper = new BeanWrapperFieldSetMapper();
-        mapper.setTargetType(Product.class);
-        return mapper;
-    }
-
     public LineTokenizer delimittedTokenizer() {
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
         tokenizer.setDelimiter(DelimitedLineTokenizer.DELIMITER_COMMA);
         tokenizer.setNames(new String[]{"productID", "productName", "productDesc", "price", "unit"});
         return tokenizer;
+    }
+
+    public FieldSetMapper fieldMapper() {
+        BeanWrapperFieldSetMapper mapper = new BeanWrapperFieldSetMapper();
+        mapper.setTargetType(Product.class);
+        return mapper;
     }
 
 }
