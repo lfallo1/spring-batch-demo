@@ -8,7 +8,7 @@ import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.file.transform.LineTokenizer;
 
-public class ProductLineMapper implements FileLineMapper<Product> {
+public class ProductCsvLineMapper {
 
     public LineMapper lineMapper() {
         DefaultLineMapper lineMapper = new DefaultLineMapper();

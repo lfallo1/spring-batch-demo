@@ -48,8 +48,8 @@ public class BatchConfiguration {
     @Bean
     public Step step1() {
         return steps.get("step1")
-                .<Product, Product>chunk(3)
-                .reader(flatFileItemReaderUtil.orderFlatFileItemReader())
+                .<Product, Product>chunk(1)
+                .reader(flatFileItemReaderUtil.productXmlFileItemReader())
                 .writer(itemWriter)
                 .build();
     }

@@ -1,8 +1,19 @@
 package com.lancefallon.springbatchhelloworld.domain;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "product")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Product {
+
+    @XmlElement(name = "productId")
     private Long productID;
     private String productName;
+
+    @XmlElement(name = "productDescription")
     private String productDesc;
     private Double price;
     private Integer unit;
