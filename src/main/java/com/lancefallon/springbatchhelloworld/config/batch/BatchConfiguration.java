@@ -1,6 +1,7 @@
-package com.lancefallon.springbatchhelloworld.config;
+package com.lancefallon.springbatchhelloworld.config.batch;
 
-import com.lancefallon.springbatchhelloworld.tasklet.MyTasklet;
+import com.lancefallon.springbatchhelloworld.config.batch.reader.filereader.FlatFileItemReaderUtil;
+import com.lancefallon.springbatchhelloworld.domain.Product;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
@@ -8,12 +9,10 @@ import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.step.tasklet.Tasklet;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,13 +35,12 @@ public class BatchConfiguration {
 
     /* item readers/processors/writers */
     @Autowired
-    private ItemReader itemReader;
+    private FlatFileItemReaderUtil flatFileItemReaderUtil;
 
     @Autowired
     private ItemProcessor itemProcessor;
 
     @Autowired
-    @Qualifier("memoryWriter")
     private ItemWriter itemWriter;
 
 
@@ -50,17 +48,8 @@ public class BatchConfiguration {
     @Bean
     public Step step1() {
         return steps.get("step1")
-                .listener(stepExecutionListener)
-                .tasklet(getMyTasklet())
-                .build();
-    }
-
-    @Bean
-    public Step step2() {
-        return steps.get("step2")
-                .<Integer, Integer>chunk(3)
-                .reader(itemReader)
-                .processor(itemProcessor)
+                .<Product, Product>chunk(3)
+                .reader(flatFileItemReaderUtil.orderFlatFileItemReader())
                 .writer(itemWriter)
                 .build();
     }
@@ -68,17 +57,11 @@ public class BatchConfiguration {
     /* Jobs */
     @Bean
     public Job helloWorldJob() {
-        return jobs.get("helloWorldJob")
+        return jobs.get("productReader")
+                .incrementer(new RunIdIncrementer())
                 .listener(jobExecutionListener)
                 .start(step1())
-                .next(step2())
                 .build();
-    }
-
-    /* Tasklets */
-    @Bean
-    public Tasklet getMyTasklet() {
-        return new MyTasklet();
     }
 
 }

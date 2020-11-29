@@ -1,4 +1,4 @@
-package com.lancefallon.springbatchhelloworld.listener;
+package com.lancefallon.springbatchhelloworld.config.batch.listener;
 
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;

@@ -1,4 +1,4 @@
-package com.lancefallon.springbatchhelloworld.reader;
+package com.lancefallon.springbatchhelloworld.config.batch.reader;
 
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
