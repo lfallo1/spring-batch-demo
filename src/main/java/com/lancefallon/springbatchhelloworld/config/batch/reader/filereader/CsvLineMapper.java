@@ -1,4 +1,4 @@
-package com.lancefallon.springbatchhelloworld.config.batch.reader.filereader.mapper;
+package com.lancefallon.springbatchhelloworld.config.batch.reader.filereader;
 
 import org.springframework.batch.item.file.LineMapper;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;

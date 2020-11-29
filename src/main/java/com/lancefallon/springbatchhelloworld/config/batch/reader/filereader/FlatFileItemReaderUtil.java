@@ -1,6 +1,5 @@
 package com.lancefallon.springbatchhelloworld.config.batch.reader.filereader;
 
-import com.lancefallon.springbatchhelloworld.config.batch.reader.filereader.mapper.CsvLineMapper;
 import com.lancefallon.springbatchhelloworld.domain.Product;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
