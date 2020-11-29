@@ -49,7 +49,8 @@ public class BatchConfiguration {
     public Step step1() {
         return steps.get("step1")
                 .<Product, Product>chunk(1)
-                .reader(flatFileItemReaderUtil.productXmlFileItemReader())
+//                .reader(flatFileItemReaderUtil.productXmlFileItemReader())
+                .reader(flatFileItemReaderUtil.productCsvFileItemReader())
                 .writer(itemWriter)
                 .build();
     }

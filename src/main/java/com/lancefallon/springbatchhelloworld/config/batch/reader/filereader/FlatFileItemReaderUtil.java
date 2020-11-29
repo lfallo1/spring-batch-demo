@@ -1,8 +1,9 @@
 package com.lancefallon.springbatchhelloworld.config.batch.reader.filereader;
 
-import com.lancefallon.springbatchhelloworld.config.batch.reader.filereader.mapper.ProductCsvLineMapper;
+import com.lancefallon.springbatchhelloworld.config.batch.reader.filereader.mapper.CsvLineMapper;
 import com.lancefallon.springbatchhelloworld.domain.Product;
 import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.xml.StaxEventItemReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,9 +22,10 @@ public class FlatFileItemReaderUtil {
 
     @Bean
     public FlatFileItemReader productCsvFileItemReader() {
+        String[] fields = new String[]{"productID", "productName", "productDesc", "price", "unit"};
         FlatFileItemReader reader = new FlatFileItemReader();
         reader.setResource(new ClassPathResource(productCsv));
-        reader.setLineMapper(new ProductCsvLineMapper().lineMapper());
+        reader.setLineMapper(new CsvLineMapper(Product.class, DelimitedLineTokenizer.DELIMITER_COMMA, fields).build());
         reader.setLinesToSkip(1);
         return reader;
     }

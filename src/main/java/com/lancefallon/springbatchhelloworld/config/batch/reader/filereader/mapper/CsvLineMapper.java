@@ -1,6 +1,5 @@
 package com.lancefallon.springbatchhelloworld.config.batch.reader.filereader.mapper;
 
-import com.lancefallon.springbatchhelloworld.domain.Product;
 import org.springframework.batch.item.file.LineMapper;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
@@ -8,25 +7,35 @@ import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.file.transform.LineTokenizer;
 
-public class ProductCsvLineMapper {
+public class CsvLineMapper {
 
-    public LineMapper lineMapper() {
+    private Class type;
+    private String delimiter;
+    private String[] fields;
+
+    public CsvLineMapper(Class type, String delimiter, String[] fields){
+        this.type = type;
+        this.delimiter = delimiter;
+        this.fields = fields;
+    }
+
+    public LineMapper build() {
         DefaultLineMapper lineMapper = new DefaultLineMapper();
-        lineMapper.setLineTokenizer(delimittedTokenizer());
+        lineMapper.setLineTokenizer(delimittedTokenizer(delimiter, fields));
         lineMapper.setFieldSetMapper(fieldMapper());
         return lineMapper;
     }
 
-    public LineTokenizer delimittedTokenizer() {
+    public LineTokenizer delimittedTokenizer(String delimiter, String[] fields) {
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-        tokenizer.setDelimiter(DelimitedLineTokenizer.DELIMITER_COMMA);
-        tokenizer.setNames(new String[]{"productID", "productName", "productDesc", "price", "unit"});
+        tokenizer.setDelimiter(delimiter);
+        tokenizer.setNames(fields);
         return tokenizer;
     }
 
     public FieldSetMapper fieldMapper() {
         BeanWrapperFieldSetMapper mapper = new BeanWrapperFieldSetMapper();
-        mapper.setTargetType(Product.class);
+        mapper.setTargetType(type);
         return mapper;
     }
 
